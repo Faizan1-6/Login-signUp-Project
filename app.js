@@ -1,64 +1,62 @@
-// ---- GET ALL INPUT IDs ----
-let suUsername   = document.getElementById("suUsername");
-let suEmail      = document.getElementById("suEmail");
-let suPassword   = document.getElementById("suPassword");
+var suUsername   = document.getElementById("suUsername");
+var suEmail      = document.getElementById("suEmail");
+var suPassword   = document.getElementById("suPassword");
+var loginUsername = document.getElementById("loginUsername");
+var loginPassword = document.getElementById("loginPassword");
 
-let loginUsername = document.getElementById("loginUsername");
-let loginPassword = document.getElementById("loginPassword");
-
-// ---- SIMPLE ALERT FUNCTION ----
-function msg(text) { alert(text); }
-
-// ---- SIGNUP ----
 function signup(e) {
   e.preventDefault();
-  if (!suUsername || !suEmail || !suPassword) return;
+  if (!suUsername || !suEmail || !suPassword) 
+    return;
 
-  let user = suUsername.value.trim();
-  let email = suEmail.value.trim();
-  let pass = suPassword.value.trim();
+  var user = suUsername.value.trim();
+  var email = suEmail.value.trim();
+  var pass = suPassword.value.trim();
 
-  if (!user || !email || !pass) return msg("Please fill all fields!");
+  if (!user || !email || !pass) 
+    return alert("Please fill all fields!");
 
   localStorage.setItem("user", JSON.stringify({ user, email, pass }));
-  msg("Signup Successful!");
-  location.href = "index.html"; 
+  alert("Signup Successful!");
+  location.href = "login.html"; 
 }
 
-// ---- LOGIN ----
 function login(e) {
   e.preventDefault();
-  if (!loginUsername || !loginPassword) return;
+  if (!loginUsername || !loginPassword) 
+    return;
 
-  let saved = JSON.parse(localStorage.getItem("user"));
-  if (!saved) return msg("No user found. Please Signup first!");
+  var saved = JSON.parse(localStorage.getItem("user"));
+  if (!saved)
+     return alert("No user found. Please Signup first!");
 
-  if (loginUsername.value === saved.user && loginPassword.value === saved.pass) {
+  if (loginUsername.value === saved.email && loginPassword.value === saved.pass)
+ {
     localStorage.setItem("loggedIn", "true");
-    msg("Login Successful!");
-    location.href = "dashboard.html";
+    alert("Login Successful!");
+    location.href = "index.html";
   } else {
-    msg("Incorrect Username or Password!");
+    alert("Incorrect Username or Password!");
   }
 }
 
-// ---- LOGOUT ----
 function logout() {
   localStorage.removeItem("loggedIn");
-  msg("Logged Out!");
-  location.href = "index.html";
+  alert("Logged Out!");
+  location.href = "login.html";
 }
 
-// ---- PROTECT DASHBOARD ----
-if (location.pathname.includes("dashboard.html")) {
-  if (localStorage.getItem("loggedIn") !== "true") location.href = "index.html";
+if (location.pathname === "/index.html") {
+  if (localStorage.getItem("loggedIn") !== "true") location.href = "login.html";
 }
 
-// ---- FORM EVENT LISTENERS ----
-let signupForm = document.getElementById("signupForm");
-let loginForm  = document.getElementById("loginForm");
-let logoutBtn  = document.getElementById("logoutBtn");
+var signupForm = document.getElementById("signupForm");
+var loginForm  = document.getElementById("loginForm");
+var logoutBtn  = document.getElementById("logoutBtn");
 
-if (signupForm) signupForm.addEventListener("submit", signup);
-if (loginForm)  loginForm.addEventListener("submit", login);
-if (logoutBtn)  logoutBtn.addEventListener("click", logout);
+if (signupForm)
+  signupForm.addEventListener("submit", signup);
+if (loginForm)
+  loginForm.addEventListener("submit", login);
+if (logoutBtn)
+  logoutBtn.addEventListener("click", logout);
